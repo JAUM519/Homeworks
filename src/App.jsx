@@ -6,13 +6,17 @@ import { ComponentApp } from "./Challenge 4.jsx";
 import { Father } from "./Challenge 5.jsx";
 import Challenge6 from "./Challenge 6.jsx";
 import Challenge7 from "./Challenge 7.jsx";
-import Login from "./Pagina Login/Login.jsx";
+import Login from "./Login.jsx";
 import Perfil from "./Perfil.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Challenge7Index from "./Pagina challenge 7/Challenge7Index.jsx";
 import SongPlayer from "./Pagina challenge 7/SongPlayer.jsx";
 import BrowserHistory from "./Pagina challenge 7/BrowserHistory.jsx";
+import Challenge8 from "./Challenge 8.jsx";
+import Challenge8Index from "./Pagina challenge 8/Challenge8Index.jsx";
+import Challenge9Index from "./Pagina challenge 9/Challenge9Index.jsx";
+import Challenge9 from "./Challenge 9.jsx";
 
 
 function AuthStatusBar() {
@@ -26,7 +30,7 @@ function AuthStatusBar() {
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between", padding: 8, borderBottom: "1px solid #eee" }}>
-      <span>Challenge de Jorge</span>
+      <span>Challenges de Jorge</span>
       <div>
         {user ? (
           <>
@@ -54,7 +58,9 @@ function Home() {
       <div className="grid-item"><ComponentApp /></div>
       <div className="grid-item"><Father /></div>
       <div className="grid-item"><Challenge6 /></div>
-  <div className="grid-item"><Challenge7 /></div>
+      <div className="grid-item"><Challenge7 /></div>
+      <div className="grid-item"><Challenge8 /></div>
+      <div className="grid-item"><Challenge9 /></div>
     </div>
   );
 }
@@ -73,6 +79,12 @@ const App = () => {
           <Route path="/challenge7" element={<Challenge7Index />} />
           <Route path="/challenge7/canciones" element={<SongPlayer />} />
           <Route path="/challenge7/historial" element={<BrowserHistory />} />
+
+          /* Challenge 8 */
+          <Route path="/challenge8" element={<Challenge8Index />} />
+
+          /* Challenge 9 */
+          <Route path="/challenge9" element={<Challenge9Index />} />
 
           /* Privadas */
           <Route element={<PrivateRoute />}>
