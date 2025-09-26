@@ -46,7 +46,7 @@ export default function SongPlayer() {
       {current ? (
         <div>
           <p><strong>{current.song.title}</strong> — {current.song.artist} ({current.song.duration})</p>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ gap: 8 }}>
             <button onClick={onNext} disabled={!current.next}>Siguiente</button>
             <button onClick={onRestart} disabled={current === head}>Reiniciar</button>
           </div>
@@ -55,9 +55,6 @@ export default function SongPlayer() {
       ) : (
         <p>No hay canciones en la lista.</p>
       )}
-      <div style={{ marginTop: 12 }}>
-        <button onClick={() => navigate('/')}>Volver al inicio</button>
-      </div>
     </div>
   )
 }

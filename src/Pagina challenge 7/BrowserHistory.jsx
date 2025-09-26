@@ -54,7 +54,7 @@ export default function BrowserHistory() {
       {current ? (
         <div>
           <p><strong>{current.page.title}</strong> — <code>{current.page.url}</code></p>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ gap: 8 }}>
             <button onClick={goBack} disabled={!current.prev}>Atrás</button>
             <button onClick={goForward} disabled={!current.next}>Adelante</button>
           </div>
@@ -63,9 +63,6 @@ export default function BrowserHistory() {
       ) : (
         <p>No hay historial.</p>
       )}
-      <div style={{ marginTop: 12 }}>
-        <button onClick={() => navigate('/')}>Volver al inicio</button>
-      </div>
     </div>
   )
 }

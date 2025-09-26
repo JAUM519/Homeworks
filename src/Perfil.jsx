@@ -10,7 +10,6 @@ export default function Perfil() {
       <h1>Perfil (Privado)</h1>
       <p>Usuario actual: <strong>{user?.username}</strong></p>
       <div style={{ marginTop: 12 }}>
-        <button onClick={() => navigate('/')}>Volver al inicio</button>
       </div>
     </section>
   );

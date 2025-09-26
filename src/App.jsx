@@ -31,6 +31,7 @@ function AuthStatusBar() {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", padding: 8, borderBottom: "1px solid #eee" }}>
       <span>Challenges de Jorge</span>
+      <button onClick={() => navigate('/')}>Volver al inicio</button>
       <div>
         {user ? (
           <>
