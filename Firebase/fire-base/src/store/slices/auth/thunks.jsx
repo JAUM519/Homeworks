@@ -3,6 +3,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/config";
 import { register } from "./authSlice";
 import { login, logout, checkingCredentials } from "./authSlice";
+import { signInWithPopup } from "firebase/auth";
+import { googleProvider} from "../../../firebase/config";
 
 export const registerAuth = ( email, password ) => {
     return async ( dispatch ) => {
@@ -38,6 +40,26 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
       );
     } catch (error) {
       dispatch(logout({ errorMessage: error?.message ?? "Error de autenticación" }));
+    }
+  };
+};
+
+export const startGoogleLogin = () => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials());
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      dispatch(
+        login({
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        })
+      );
+    } catch (error) {
+      dispatch(logout({ errorMessage: error.message }));
     }
   };
 };

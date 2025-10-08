@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoginWithEmailPassword } from "../store/slices/auth/thunks";
+import { startLoginWithEmailPassword, startGoogleLogin } from "../store/slices/auth/thunks";
+
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -28,6 +29,9 @@ export default function Login() {
                     <input name="password" type="password" value={form.password} onChange={onChange} required />
                 </div>
                 <button type="submit"> Entrar </button>
+                <button type="button" onClick={() => dispatch(startGoogleLogin())}>
+                Iniciar sesión con Google
+                </button>
                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </form>
         </div>
