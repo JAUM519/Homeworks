@@ -19,7 +19,7 @@ const Profile = () => {
   if (!user) return <div>No hay usuario iniciado</div>;
 
   return (
-    <div className="profile">
+    <div className="card profile">
       {user.photoURL && <img src={user.photoURL} alt="avatar" width={120} />}
       <h2>{user.displayName ?? user.name ?? 'Sin nombre'}</h2>
       <p>Email: {user.email}</p>

@@ -50,12 +50,13 @@ export const startGoogleLogin = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+
       dispatch(
         login({
           uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
+          displayName: user.displayName ?? null,
+          email: user.email ?? null,
+          photoURL: user.photoURL ?? null,
         })
       );
     } catch (error) {

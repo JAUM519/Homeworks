@@ -17,23 +17,23 @@ export default function Login() {
     };
 
     return (
-        <div style={{ maxWidth: 420, margin: "0 auto" }}>
-            <h2>Iniciar sesión</h2>
-            <form onSubmit={onSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input name="email" type="email" value={form.email} onChange={onChange} required />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input name="password" type="password" value={form.password} onChange={onChange} required />
-                </div>
-                <button type="submit"> Entrar </button>
-                <button type="button" onClick={() => dispatch(startGoogleLogin())}>
-                Iniciar sesión con Google
-                </button>
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            </form>
+        <div className="card">
+        <h2>Iniciar sesión</h2>
+        <form onSubmit={onSubmit}>
+            <div>
+            <label>Email</label>
+            <input name="email" type="email" value={form.email} onChange={onChange} required />
+            </div>
+            <div>
+            <label>Password</label>
+            <input name="password" type="password" value={form.password} onChange={onChange} required />
+            </div>
+            <button type="submit">Entrar</button>
+            <button type="button" onClick={() => dispatch(startGoogleLogin())}>
+            Iniciar sesión con Google
+            </button>
+            {errorMessage && <p className="error">{errorMessage}</p>}
+        </form>
         </div>
     );
 }

@@ -28,14 +28,13 @@ export const Registro = () => {
     const { email, password } = formState;
 
     return (
-        <>
-            <h1>Registro</h1>
-            <hr />
-            <form onSubmit={(event) => onSubmit(event)}>
-                <input name="email" type="email" onChange={ (event) => onInputChange(event) } value={email} />
-                <input name="password" type="password" onChange={ (event) => onInputChange(event)} value={password} />
-                <button type="submit"> Registro </button>
-            </form>
-        </>
-    )
+        <div className="card">
+        <h1>Registro</h1>
+        <form onSubmit={onSubmit}>
+            <input name="email" type="email" onChange={onInputChange} value={email} />
+            <input name="password" type="password" onChange={onInputChange} value={password} />
+            <button type="submit">Registro</button>
+        </form>
+        </div>
+    );
 }
