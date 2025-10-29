@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { FirstApp } from './FirstApp'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    < FirstApp defaultValue={1} />
   </React.StrictMode>,
 )
