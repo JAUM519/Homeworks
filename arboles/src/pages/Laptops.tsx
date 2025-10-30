@@ -1,0 +1,1 @@
+export function ProductsLaptops() { return <div className="card"><h1>Laptops</h1><p>Portátiles y ultrabooks.</p></div>; }

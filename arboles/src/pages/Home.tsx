@@ -1,0 +1,1 @@
+export function Home() { return <div className="card"><h1>Home</h1><p>Bienvenido.</p></div>; }

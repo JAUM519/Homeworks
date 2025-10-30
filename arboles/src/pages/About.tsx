@@ -1,0 +1,1 @@
+export function About() { return <div className="card"><h1>About</h1><p>Acerca de la compañía.</p></div>; }

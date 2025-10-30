@@ -1,0 +1,1 @@
+export function ProductsPhones() { return <div className="card"><h1>Phones</h1><p>Móviles y accesorios.</p></div>; }

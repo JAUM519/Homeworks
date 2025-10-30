@@ -1,0 +1,1 @@
+export function Products() { return <div className="card"><h1>Products</h1><p>Catálogo general.</p></div>; }
