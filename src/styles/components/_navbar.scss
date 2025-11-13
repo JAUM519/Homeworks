@@ -1,0 +1,64 @@
+@use '../variables' as v;
+@use '../mixins' as m;
+
+.navbar {
+  @include m.flex-center;
+  justify-content: space-between;
+  padding: v.$spacing-lg;
+  background: white;
+  box-shadow: v.$shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-in;
+
+  &__brand {
+    font-weight: v.$font-weight-bold;
+    font-size: v.$font-size-lg;
+    color: v.$primary-color;
+
+    @include m.responsive(md) {
+      font-size: v.$font-size-xl;
+    }
+  }
+
+  &__content {
+    @include m.flex-center;
+    gap: v.$spacing-md;
+  }
+
+  &__user {
+    @include m.flex-center;
+    gap: v.$spacing-sm;
+
+    &-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: v.$border-radius-full;
+      object-fit: cover;
+      border: 2px solid v.$border-color;
+      transition: transform v.$transition-fast;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    &-name {
+      font-weight: v.$font-weight-medium;
+      color: v.$text-color;
+
+      // Ocultar en móviles
+      display: none;
+
+      @include m.responsive(md) {
+        display: block;
+      }
+    }
+  }
+
+  &__guest {
+    color: v.$text-muted;
+    font-style: italic;
+  }
+}

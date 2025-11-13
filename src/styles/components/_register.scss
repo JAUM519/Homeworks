@@ -1,0 +1,97 @@
+@use '../variables' as v;
+@use '../mixins' as m;
+
+.register {
+  @include m.card;
+  max-width: 400px;
+  animation: fadeIn 0.7s ease-in;
+
+  &__title {
+    color: v.$secondary-color;
+    margin-bottom: v.$spacing-lg;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-md;
+
+    .form-input {
+      @include m.input-base;
+
+      &:focus {
+        border-color: v.$secondary-color;
+        box-shadow: 0 0 0 3px rgba(v.$secondary-color, 0.1);
+      }
+    }
+
+    .submit-btn {
+      @include m.button-base;
+      @include m.button-variant(v.$secondary-color, white);
+      display: block;
+      width: 100%;
+      margin-top: v.$spacing-sm;
+    }
+  }
+
+  &__strength {
+    margin-top: v.$spacing-sm;
+
+    &-bar {
+      height: 4px;
+      background: v.$border-color;
+      border-radius: v.$border-radius-full;
+      overflow: hidden;
+
+      &-fill {
+        height: 100%;
+        transition: all v.$transition-normal;
+        border-radius: v.$border-radius-full;
+
+        &--weak {
+          width: 33%;
+          background: v.$danger-color;
+        }
+
+        &--medium {
+          width: 66%;
+          background: v.$warning-color;
+        }
+
+        &--strong {
+          width: 100%;
+          background: v.$secondary-color;
+        }
+      }
+    }
+
+    &-text {
+      font-size: v.$font-size-sm;
+      margin-top: v.$spacing-xs;
+      color: v.$text-muted;
+    }
+  }
+
+  &__terms {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-sm;
+    margin-top: v.$spacing-md;
+    font-size: v.$font-size-sm;
+
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    label {
+      cursor: pointer;
+      color: v.$text-muted;
+
+      a {
+        color: v.$secondary-color;
+        font-weight: v.$font-weight-medium;
+      }
+    }
+  }
+}

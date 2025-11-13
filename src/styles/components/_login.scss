@@ -1,0 +1,98 @@
+@use '../variables' as v;
+@use '../mixins' as m;
+
+.login {
+  @include m.card;
+  max-width: 400px;
+  animation: fadeIn 0.5s ease-in;
+
+  &__title {
+    color: v.$primary-color;
+    margin-bottom: v.$spacing-lg;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-md;
+
+    .form-input {
+      @include m.input-base;
+    }
+
+    .submit-btn {
+      @include m.button-base;
+      @include m.button-variant(v.$primary-color, white);
+      display: block;
+      width: 100%;
+      margin-top: v.$spacing-sm;
+    }
+  }
+
+  &__divider {
+    display: flex;
+    align-items: center;
+    margin: v.$spacing-lg 0;
+    color: v.$text-muted;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: v.$border-color;
+    }
+
+    &::before {
+      margin-right: v.$spacing-md;
+    }
+
+    &::after {
+      margin-left: v.$spacing-md;
+    }
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-sm;
+
+    .google-btn {
+      @include m.button-base;
+      background: white;
+      color: v.$text-color;
+      border: 1px solid v.$border-color;
+
+      @include m.flex-center;
+      gap: v.$spacing-sm;
+
+      .google-logo {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+      }
+
+      &:not(:disabled):hover {
+        background: v.$light-color;
+        border-color: v.$primary-color;
+      }
+
+      &::before {
+        content: '';
+        font-size: 20px;
+      }
+    }
+  }
+
+  &__error {
+    margin-top: v.$spacing-md;
+    padding: v.$spacing-md;
+    background: rgba(v.$danger-color, 0.1);
+    border-left: 4px solid v.$danger-color;
+    border-radius: v.$border-radius-sm;
+    color: v.$danger-color;
+    font-size: v.$font-size-sm;
+    animation: shake 0.5s;
+  }
+}

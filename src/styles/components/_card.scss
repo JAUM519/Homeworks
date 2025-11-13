@@ -1,0 +1,59 @@
+@use '../variables' as v;
+@use '../mixins' as m;
+
+.card {
+  @include m.card;
+
+  &__header {
+    margin-bottom: v.$spacing-lg;
+    padding-bottom: v.$spacing-md;
+    border-bottom: 1px solid v.$border-color;
+
+    h2, h3 {
+      margin-bottom: 0;
+    }
+  }
+
+  &__body {
+    // Estilos del cuerpo de la tarjeta
+  }
+
+  &__footer {
+    margin-top: v.$spacing-lg;
+    padding-top: v.$spacing-md;
+    border-top: 1px solid v.$border-color;
+
+    @include m.flex-center;
+    gap: v.$spacing-sm;
+    justify-content: flex-end;
+  }
+
+  // Variantes
+  &--elevated {
+    box-shadow: v.$shadow-lg;
+  }
+
+  &--bordered {
+    border: 2px solid v.$border-color;
+  }
+
+  // Tarjeta interactiva
+  &--interactive {
+    cursor: pointer;
+    transition: all v.$transition-normal;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: v.$shadow-lg;
+    }
+
+    &:active {
+      transform: translateY(-2px);
+    }
+  }
+
+  // Grid de tarjetas
+  &-grid {
+    @include m.grid-responsive(1, 2, 3);
+  }
+}

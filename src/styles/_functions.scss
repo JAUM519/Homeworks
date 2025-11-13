@@ -1,0 +1,57 @@
+@use 'sass:math';
+@use 'sass:color';
+@use 'variables' as v;
+
+// Función para convertir px a rem
+@function rem($pixels, $base: 16) {
+  @return math.div($pixels, $base) * 1rem;
+}
+
+// Función para convertir px a em
+@function em($pixels, $base: 16) {
+  @return math.div($pixels, $base) * 1em;
+}
+
+// Función para obtener color del tema
+@function theme-color($key) {
+  @if map-has-key(v.$theme-colors, $key) {
+    @return map-get(v.$theme-colors, $key);
+  }
+  @warn "Color '#{$key}' no encontrado en el tema.";
+  @return null;
+}
+
+// Función para obtener espaciado
+@function spacing($key) {
+  @if map-has-key(v.$spacings, $key) {
+    @return map-get(v.$spacings, $key);
+  }
+  @warn "Espaciado '#{$key}' no encontrado.";
+  @return null;
+}
+
+// Función para aclarar color
+@function tint($color, $percentage) {
+  @return color.mix(white, $color, $percentage);
+}
+
+// Función para oscurecer color
+@function shade($color, $percentage) {
+  @return color.mix(black, $color, $percentage);
+}
+
+// Función para calcular contraste de texto
+@function text-contrast($bg-color) {
+  @if (color.channel($bg-color, "lightness", $space: hsl) > 50%) {
+    @return v.$dark-color;
+  } @else {
+    @return white;
+  }
+}
+
+// Función para calcular tamaño fluido
+@function fluid-size($min-size, $max-size, $min-vw: 320, $max-vw: 1200) {
+  $slope: math.div($max-size - $min-size, $max-vw - $min-vw);
+  $intercept: $min-size - $slope * $min-vw;
+  @return clamp(#{$min-size}px, #{$intercept}px + #{$slope * 100}vw, #{$max-size}px);
+}

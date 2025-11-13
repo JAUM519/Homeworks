@@ -2,22 +2,39 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logoutFirebase } from '../store/slices/authSlice'
 
 export function Navbar() {
-  const dispatch = useDispatch()
-  const { status, displayName, photoURL } = useSelector(s => s.auth)
+    const dispatch = useDispatch()
+    const { status, displayName, photoURL } = useSelector(s => s.auth)
 
-  return (
-    <nav style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 8 }}>
-      <strong>Firebase Auth</strong>
-      <span style={{ flex: 1 }} />
-      {status === 'authenticated' ? (
-        <>
-          {photoURL && <img src={photoURL} alt="avatar" width={28} height={28} style={{ borderRadius: '50%' }} />}
-          <span>{displayName || 'Usuario'}</span>
-          <button onClick={()=>dispatch(logoutFirebase())}>Logout</button>
-        </>
-      ) : (
-        <span>Invitado</span>
-      )}
-    </nav>
-  )
+    return (
+        <nav className="navbar">
+            <div className="navbar__brand">
+                🔥 Firebase Auth
+            </div>
+
+            <div className="navbar__content">
+                {status === 'authenticated' ? (
+                    <div className="navbar__user">
+                        {photoURL && (
+                            <img
+                                src={photoURL}
+                                alt="avatar"
+                                className="navbar__user-avatar"
+                            />
+                        )}
+                        <span className="navbar__user-name">
+              {displayName || 'Usuario'}
+            </span>
+                        <button
+                            className="btn btn--danger btn--sm"
+                            onClick={() => dispatch(logoutFirebase())}
+                        >
+                            Salir
+                        </button>
+                    </div>
+                ) : (
+                    <span className="navbar__guest">Modo Invitado</span>
+                )}
+            </div>
+        </nav>
+    )
 }

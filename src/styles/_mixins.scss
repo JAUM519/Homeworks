@@ -1,0 +1,159 @@
+@use 'variables' as v;
+@use 'sass:color';
+
+// Mixin para flexbox centrado
+@mixin flex-center($direction: row) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+// Mixin para responsive
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: v.$breakpoint-sm) { @content; }
+  }
+  @if $breakpoint == md {
+    @media (min-width: v.$breakpoint-md) { @content; }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: v.$breakpoint-lg) { @content; }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: v.$breakpoint-xl) { @content; }
+  }
+}
+
+// Mixin para botones
+@mixin button-base {
+  padding: v.$spacing-md v.$spacing-lg;
+  border: none;
+  border-radius: v.$border-radius-md;
+  font-family: v.$font-family;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+  cursor: pointer;
+  transition: all v.$transition-normal;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: v.$shadow-md;
+  }
+
+  &:not(:disabled):active {
+    transform: translateY(0);
+  }
+}
+
+// Mixin para botones con variantes
+@mixin button-variant($bg-color, $text-color: white) {
+  background-color: $bg-color;
+  color: $text-color;
+
+  &:not(:disabled):hover {
+    background-color: color.adjust($bg-color, $lightness: -8%);
+  }
+
+  &:not(:disabled):active {
+    background-color: color.adjust($bg-color, $lightness: -12%);
+  }
+}
+
+// Mixin para inputs
+@mixin input-base {
+  width: 100%;
+  padding: v.$spacing-md;
+  border: 1px solid v.$border-color;
+  border-radius: v.$border-radius-md;
+  font-family: v.$font-family;
+  font-size: v.$font-size-base;
+  transition: all v.$transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: v.$primary-color;
+    box-shadow: 0 0 0 3px rgba(v.$primary-color, 0.1);
+  }
+
+  &::placeholder {
+    color: v.$text-muted;
+  }
+}
+
+// Mixin para tarjetas
+@mixin card {
+  background: white;
+  border: 1px solid v.$border-color;
+  border-radius: v.$border-radius-lg;
+  padding: v.$spacing-lg;
+  box-shadow: v.$shadow-sm;
+  transition: box-shadow v.$transition-normal;
+
+  &:hover {
+    box-shadow: v.$shadow-md;
+  }
+}
+
+// Mixin para texto truncado
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Mixin para scroll personalizado
+@mixin custom-scrollbar($width: 8px, $track-color: v.$light-color, $thumb-color: v.$border-color) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: v.$border-radius-sm;
+
+    &:hover {
+      background: color.adjust($thumb-color, $lightness: -10%);
+    }
+  }
+}
+
+// Mixin para animaciones
+@mixin fade-in($duration: v.$transition-normal) {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  animation: fadeIn $duration ease-in;
+}
+
+// Mixin para grid responsive
+@mixin grid-responsive($cols-sm: 1, $cols-md: 2, $cols-lg: 3, $gap: v.$spacing-lg) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat($cols-sm, 1fr);
+
+  @include responsive(md) {
+    grid-template-columns: repeat($cols-md, 1fr);
+  }
+
+  @include responsive(lg) {
+    grid-template-columns: repeat($cols-lg, 1fr);
+  }
+}

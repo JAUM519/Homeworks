@@ -1,0 +1,114 @@
+@use 'variables' as v;
+@use 'functions' as f;
+@use 'mixins' as m;
+@use 'sass:color';
+
+// Reset y estilos base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: v.$font-size-base;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: v.$font-family;
+  color: v.$text-color;
+  background-color: v.$light-color;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include m.custom-scrollbar;
+}
+
+// Tipografía base
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: v.$spacing-md;
+  font-weight: v.$font-weight-bold;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: f.fluid-size(28, 48);
+}
+
+h2 {
+  font-size: f.fluid-size(24, 36);
+}
+
+h3 {
+  font-size: f.fluid-size(20, 28);
+}
+
+p {
+  margin-bottom: v.$spacing-md;
+}
+
+a {
+  color: v.$primary-color;
+  text-decoration: none;
+  transition: color v.$transition-fast;
+
+  &:hover {
+    color: color.adjust(v.$primary-color, $lightness: -15%);
+  }
+}
+
+// Utilidades generales
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 v.$spacing-lg;
+
+  @include m.responsive(lg) {
+    padding: 0 v.$spacing-xxl;
+  }
+}
+
+.text {
+  &-center { text-align: center; }
+  &-left { text-align: left; }
+  &-right { text-align: right; }
+  &-muted { color: v.$text-muted; }
+  &-bold { font-weight: v.$font-weight-bold; }
+
+  &-truncate {
+    @include m.text-truncate;
+  }
+}
+
+// Generador de utilidades de espaciado
+@each $name, $size in v.$spacings {
+  .m-#{$name} { margin: $size; }
+  .mt-#{$name} { margin-top: $size; }
+  .mb-#{$name} { margin-bottom: $size; }
+  .ml-#{$name} { margin-left: $size; }
+  .mr-#{$name} { margin-right: $size; }
+  .mx-#{$name} {
+    margin-left: $size;
+    margin-right: $size;
+  }
+  .my-#{$name} {
+    margin-top: $size;
+    margin-bottom: $size;
+  }
+
+  .p-#{$name} { padding: $size; }
+  .pt-#{$name} { padding-top: $size; }
+  .pb-#{$name} { padding-bottom: $size; }
+  .pl-#{$name} { padding-left: $size; }
+  .pr-#{$name} { padding-right: $size; }
+  .px-#{$name} {
+    padding-left: $size;
+    padding-right: $size;
+  }
+  .py-#{$name} {
+    padding-top: $size;
+    padding-bottom: $size;
+  }
+}

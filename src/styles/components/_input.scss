@@ -1,0 +1,82 @@
+@use '../variables' as v;
+@use '../mixins' as m;
+
+.input {
+  @include m.input-base;
+
+  &--error {
+    border-color: v.$danger-color;
+
+    &:focus {
+      border-color: v.$danger-color;
+      box-shadow: 0 0 0 3px rgba(v.$danger-color, 0.1);
+    }
+  }
+
+  &--success {
+    border-color: v.$secondary-color;
+
+    &:focus {
+      border-color: v.$secondary-color;
+      box-shadow: 0 0 0 3px rgba(v.$secondary-color, 0.1);
+    }
+  }
+
+  // Wrapper para inputs con icono
+  &-wrapper {
+    position: relative;
+
+    .input-icon {
+      position: absolute;
+      left: v.$spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      color: v.$text-muted;
+      pointer-events: none;
+    }
+
+    .input {
+      &--with-icon {
+        padding-left: calc(v.$spacing-md * 3);
+      }
+    }
+  }
+
+  // Grupo de inputs
+  &-group {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-sm;
+    margin-bottom: v.$spacing-lg;
+
+    label {
+      font-weight: v.$font-weight-medium;
+      color: v.$text-color;
+      font-size: v.$font-size-sm;
+
+      .required {
+        color: v.$danger-color;
+        margin-left: v.$spacing-xs;
+      }
+    }
+
+    .error-message {
+      color: v.$danger-color;
+      font-size: v.$font-size-sm;
+      margin-top: v.$spacing-xs;
+    }
+
+    .help-text {
+      color: v.$text-muted;
+      font-size: v.$font-size-sm;
+      margin-top: v.$spacing-xs;
+    }
+  }
+}
+
+// Textarea
+textarea.input {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}

@@ -4,24 +4,43 @@ import { Register } from './components/Register'
 import { Navbar } from './components/Navbar'
 
 export function App() {
-  const status = useSelector(s => s.auth.status)
-  const email = useSelector(s => s.auth.email)
+    const status = useSelector(s => s.auth.status)
+    const { email, displayName } = useSelector(s => s.auth)
 
-  return (
-    <main style={{ maxWidth: 800, margin: '0 auto', padding: 16 }}>
-      <Navbar />
+    if (status === 'checking') {
+        return (
+            <main className="app__container">
+                <div className="app__loading">
+                    <div className="app__loading-spinner" />
+                    <p className="app__loading-text">Verificando sesión...</p>
+                </div>
+            </main>
+        )
+    }
 
-      {status === 'authenticated' ? (
-        <section>
-          <h1>Bienvenido</h1>
-          <p>Sesión iniciada: {email}</p>
-        </section>
-      ) : (
-        <section style={{ display: 'grid', gap: 16 }}>
-          <Login />
-          <Register />
-        </section>
-      )}
-    </main>
-  )
+    return (
+        <>
+            <Navbar />
+
+            <main className="app__container">
+                {status === 'authenticated' ? (
+                    <section className="app__welcome">
+                        <div className="welcome-icon">🎉</div>
+                        <h1>¡Bienvenido{displayName ? `, ${displayName}` : ''}!</h1>
+                        <p className="welcome-email">{email}</p>
+                        <div className="mt-lg">
+                            <p className="text-muted">
+                                Has iniciado sesión exitosamente en la aplicación.
+                            </p>
+                        </div>
+                    </section>
+                ) : (
+                    <div className="app__auth-section">
+                        <Login />
+                        <Register />
+                    </div>
+                )}
+            </main>
+        </>
+    )
 }
