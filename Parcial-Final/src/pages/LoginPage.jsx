@@ -1,6 +1,6 @@
-// src/pages/LoginPage.jsx
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import './LoginPage.scss';
 
 const provider = new GoogleAuthProvider();
 
@@ -14,9 +14,14 @@ export function LoginPage() {
     };
 
     return (
-        <div>
-            <h2>Login con Google</h2>
-            <button onClick={handleLoginWithGoogle}>Iniciar sesión con Google</button>
+        <div className="login-page">
+            <div className="login-card fade-in">
+                <h2>Bienvenido</h2>
+                <p>Inicia sesión para gestionar tu red de ciudades</p>
+                <button className="google-button" onClick={handleLoginWithGoogle}>
+                    Iniciar sesión con Google
+                </button>
+            </div>
         </div>
     );
 }

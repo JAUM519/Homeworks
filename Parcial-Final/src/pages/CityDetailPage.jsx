@@ -1,4 +1,3 @@
-// src/pages/CityDetailPage.jsx
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
@@ -6,18 +5,29 @@ import { addZoneToCity, editZoneInCity } from '../store/slices/citiesSlice';
 import { Stack } from '../structures/Stack';
 import { ZoneNode } from '../structures/NaryTree';
 import { Graph as D3Graph } from 'react-d3-graph';
+import './CityDetailPage.scss';
 
 const historyStack = new Stack();
 
-function renderZones(node) {
+function renderZones(node, depth = 0) {
     if (!node) return null;
+
+    // Iconos diferentes según la profundidad/nivel
+    const getIcon = (level, hasChildren) => {
+        if (level === 0) return '🌳'; // Raíz principal (ciudad)
+        if (hasChildren) return '🌲'; // Padres intermedios
+        return '🌿'; // Hojas (sin hijos)
+    };
+
+    const icon = getIcon(depth, node.children.length > 0);
+
     return (
         <li>
-            {node.name}
+            <span className="zone-icon">{icon}</span> {node.name}
             {node.children.length > 0 && (
                 <ul>
                     {node.children.map((child) => (
-                        <div key={child.name}>{renderZones(child)}</div>
+                        <div key={child.name}>{renderZones(child, depth + 1)}</div>
                     ))}
                 </ul>
             )}
@@ -25,7 +35,6 @@ function renderZones(node) {
     );
 }
 
-// Obtener listado plano de nombres de zonas (todas: raíz + subzonas)
 function collectZoneNames(node, result = []) {
     if (!node) return result;
     result.push(node.name);
@@ -35,36 +44,48 @@ function collectZoneNames(node, result = []) {
     return result;
 }
 
-// Construir data para react-d3-graph a partir del árbol de zonas
+function greenByDepth(depth) {
+    const max = 20;
+    const d = Math.min(depth, max);
+
+    const r = 0 + d * 15;
+    const g = 150 + d * 8;
+    const b = 0 + d * 30;
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
 function buildZoneGraphData(root) {
     const nodes = [];
     const links = [];
-    const nodeIds = new Set();
 
-    const traverse = (node) => {
+    const visited = new Set();
+
+    function traverse(node, depth) {
         if (!node) return;
 
-        if (!nodeIds.has(node.name)) {
-            nodeIds.add(node.name);
-            nodes.push({ id: node.name });
+        if (!visited.has(node.name)) {
+            visited.add(node.name);
+
+            nodes.push({
+                id: node.name,
+                color: greenByDepth(depth),   // color según profundidad
+            });
         }
 
+        // recorrer hijos
         node.children.forEach((child) => {
-            if (!nodeIds.has(child.name)) {
-                nodeIds.add(child.name);
-                nodes.push({ id: child.name });
-            }
-
             links.push({
                 source: node.name,
                 target: child.name,
             });
 
-            traverse(child);
+            traverse(child, depth + 1);
         });
-    };
+    }
 
-    traverse(root);
+    traverse(root, 0);
+
     return { nodes, links };
 }
 
@@ -75,16 +96,13 @@ export function CityDetailPage() {
 
     const root = zonesByCity[cityName];
 
-    // Agregar zona
     const [parentZoneName, setParentZoneName] = useState('');
     const [newZoneName, setNewZoneName] = useState('');
-
-    // Editar zona
     const [zoneToEdit, setZoneToEdit] = useState('');
     const [newNameForEdit, setNewNameForEdit] = useState('');
 
     if (!root) {
-        return <h2>City "{cityName}" not found</h2>;
+        return <h2>Ciudad "{cityName}" no encontrada</h2>;
     }
 
     const totalZones = root.countZones();
@@ -127,7 +145,6 @@ export function CityDetailPage() {
         setNewNameForEdit('');
     };
 
-    // Grafo de zonas verdes
     const zoneGraphData = buildZoneGraphData(root);
     const zoneGraphConfig = {
         directed: false,
@@ -135,37 +152,49 @@ export function CityDetailPage() {
         linkHighlightBehavior: true,
         height: 400,
         width: 600,
+        node: {
+            color: "#00aa00",
+            highlightColor: "orange",
+        },
+        link: {
+            color: "#888",
+            highlightColor: "red",
+        },
     };
 
     return (
-        <div>
-            <h2>Detalles de la Ciudad: {cityName}</h2>
+        <div className="city-detail-page">
+            <div className="page-header">
+                <h2>{cityName}</h2>
+            </div>
 
             {/* CREACIÓN DE ZONAS VERDES */}
-            <div>
-                <h3>Añadir Zona Verde</h3>
-                <p>
+            <div className="section-card form-section">
+                <h3>
+                    <span className="zone-icon">🌳</span>
+                    Añadir Zona Verde
+                </h3>
+                <p className="help-text">
                     Si no seleccionas zona padre, la nueva zona se agregará bajo la raíz
                     de la ciudad.
                 </p>
 
-                {/* SELECCIÓN DE ZONA PADRE */}
-                <label>
-                    Zona Padre:
+                <div className="form-row">
+                    <label>Zona Padre:</label>
                     <select
                         value={parentZoneName}
                         onChange={(e) => setParentZoneName(e.target.value)}
                     >
-                        <option value="">Ninguna</option>
+                        <option value="">Ninguna (Raíz)</option>
                         {parentOptions.map((name) => (
                             <option key={name} value={name}>
                                 {name}
                             </option>
                         ))}
                     </select>
-                </label>
+                </div>
 
-                <div>
+                <div className="form-group">
                     <input
                         placeholder="Nombre de la nueva Zona"
                         value={newZoneName}
@@ -175,18 +204,21 @@ export function CityDetailPage() {
                 </div>
             </div>
 
-            {/* EDICIÓN DE TODAS LAS ZONAS VERDES */}
-            <div>
-                <h3>Editar Zonas Verdes</h3>
+            {/* EDICIÓN DE ZONAS VERDES */}
+            <div className="section-card form-section">
+                <h3>
+                    <span className="zone-icon">✏️</span>
+                    Editar Zonas Verdes
+                </h3>
                 {allZoneNames.length === 0 ? (
-                    <p>No hay Zonas para Editar.</p>
+                    <p className="empty-state">No hay Zonas para Editar.</p>
                 ) : (
-                    <div>
+                    <div className="form-group">
                         <select
                             value={zoneToEdit}
                             onChange={(e) => setZoneToEdit(e.target.value)}
                         >
-                            <option value="">Selecciónar Zona</option>
+                            <option value="">Seleccionar Zona</option>
                             {allZoneNames.map((name) => (
                                 <option key={name} value={name}>
                                     {name}
@@ -204,26 +236,47 @@ export function CityDetailPage() {
             </div>
 
             {/* ESTADÍSTICAS DE LA CIUDAD */}
-            <div>
-                <h3>Estadisticas de la Ciudad</h3>
-                <p>Número total de Zonas verdes: {totalZones}</p>
-                <p>Longitud más larga de la Zonas: {height}</p>
+            <div className="section-card">
+                <h3>
+                    <span className="zone-icon">📊</span>
+                    Estadísticas de la Ciudad
+                </h3>
+                <div className="stats-grid">
+                    <div className="stat-card">
+                        <div className="stat-label">Número total de Zonas verdes</div>
+                        <div className="stat-value">{totalZones}</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-label">Profundidad máxima del árbol</div>
+                        <div className="stat-value">{height}</div>
+                    </div>
+                </div>
             </div>
 
             {/* ÁRBOL DE ZONAS VERDES */}
-            <div>
-                <h3>Arbol de Zonas</h3>
-                <ul>{renderZones(root)}</ul>
+            <div className="section-card">
+                <h3>
+                    <span className="zone-icon">🌲</span>
+                    Árbol de Zonas
+                </h3>
+                <div className="zone-tree">
+                    <ul>{renderZones(root)}</ul>
+                </div>
             </div>
 
             {/* GRAFO DE ZONAS VERDES */}
-            <div>
-                <h3>Grafo de Zonas Verdes</h3>
-                <D3Graph
-                    id={`zones-graph-${cityName}`}
-                    data={zoneGraphData}
-                    config={zoneGraphConfig}
-                />
+            <div className="section-card">
+                <h3>
+                    <span className="zone-icon">🗺️</span>
+                    Grafo de Zonas Verdes
+                </h3>
+                <div className="graph-container">
+                    <D3Graph
+                        id={`zones-graph-${cityName}`}
+                        data={zoneGraphData}
+                        config={zoneGraphConfig}
+                    />
+                </div>
             </div>
         </div>
     );

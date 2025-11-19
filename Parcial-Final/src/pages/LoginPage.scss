@@ -1,0 +1,42 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary-light 0%, $background 100%);
+
+  .login-card {
+    @include card;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    padding: $spacing-2xl;
+
+    h2 {
+      font-size: $font-size-2xl;
+      color: $text-primary;
+      margin-bottom: $spacing-xs;
+    }
+
+    p {
+      color: $text-secondary;
+      margin-bottom: $spacing-xl;
+    }
+
+    .google-button {
+      @include button-primary;
+      width: 100%;
+      justify-content: center;
+      font-size: $font-size-lg;
+      padding: $spacing-md $spacing-lg;
+
+      &::before {
+        content: '🔐';
+        margin-right: $spacing-sm;
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from './firebase/config';
 import { loadNetworkFromDb, saveNetworkToDb } from './firebase/cityNetworkDb';
 import { replaceFromDb } from './store/slices/citiesSlice';
+import './App.scss';
 
 export function App() {
     const { user } = useContext(AppContext);
@@ -52,7 +53,6 @@ export function App() {
         }
     };
 
-    // Cargar red desde Firestore
     useEffect(() => {
         let cancelled = false;
 
@@ -80,7 +80,6 @@ export function App() {
         };
     }, [dispatch]);
 
-    // Guardar red en Firestore cada vez que cambie
     useEffect(() => {
         if (!networkLoaded) return;
         saveNetworkToDb(graph, zonesByCity).catch((err) =>
@@ -89,11 +88,10 @@ export function App() {
     }, [networkLoaded, version, graph, zonesByCity]);
 
     return (
-        <div>
+        <div className="app-container">
             {user && !isLoginPage && (
                 <nav>
-                    <Link to="/cities">Ciudades</Link>
-                    {' | '}
+                    <Link to="/cities">🏙️ Ciudades</Link>
                     <button onClick={handleLogout}>Cerrar sesión</button>
                 </nav>
             )}
@@ -102,7 +100,7 @@ export function App() {
                 <Route path="/" element={<LoginPage />} />
                 <Route path="/cities" element={<CitiesPage />} />
                 <Route path="/cities/:cityName" element={<CityDetailPage />} />
-                <Route path="*" element={<h2>404 - Not found</h2>} />
+                <Route path="*" element={<h2>404 - Página no encontrada</h2>} />
             </Routes>
         </div>
     );

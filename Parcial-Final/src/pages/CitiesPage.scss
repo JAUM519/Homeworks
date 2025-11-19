@@ -1,0 +1,127 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.cities-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+
+  h2 {
+    font-size: $font-size-2xl;
+    color: $text-primary;
+    margin-bottom: $spacing-xl;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    &::before {
+      content: '🏙️';
+      font-size: $font-size-2xl;
+    }
+  }
+
+  .section-card {
+    @include card;
+    @include section-spacing;
+
+    h3 {
+      font-size: $font-size-xl;
+      color: $text-primary;
+      margin-bottom: $spacing-md;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $primary-light;
+    }
+
+    .form-group {
+      display: flex;
+      gap: $spacing-md;
+      flex-wrap: wrap;
+      align-items: center;
+
+      input {
+        @include input-base;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      select {
+        @include input-base;
+        flex: 1;
+        min-width: 150px;
+        cursor: pointer;
+      }
+
+      button {
+        @include button-primary;
+      }
+    }
+  }
+
+  .cities-list {
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: $spacing-md;
+      margin-bottom: $spacing-sm;
+      background: $primary-light;
+      border-radius: $radius-md;
+      transition: all $transition-base;
+
+      &:hover {
+        transform: translateX(4px);
+        box-shadow: $shadow-md;
+      }
+
+      a {
+        color: $primary-color;
+        text-decoration: none;
+        font-weight: 500;
+        flex: 1;
+        transition: color $transition-fast;
+
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      button {
+        @include button-danger;
+        padding: $spacing-xs $spacing-sm;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  .adjacency-list {
+    list-style: none;
+
+    li {
+      padding: $spacing-sm $spacing-md;
+      margin-bottom: $spacing-xs;
+      background: $background;
+      border-radius: $radius-sm;
+      border-left: 4px solid $secondary-color;
+      font-family: 'Courier New', monospace;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .graph-container {
+    background: $white;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    display: flex;
+    justify-content: center;
+    border: 2px solid $border-color;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $text-secondary;
+    font-style: italic;
+  }
+}

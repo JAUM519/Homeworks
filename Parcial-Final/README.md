@@ -1,16 +1,110 @@
-# React + Vite
+## PARCIAL 3 EDyA2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación desarrollada en **React + Vite** que modela una red
+de ciudades conectadas y un sistema jerárquico de zonas verdes
+para cada ciudad. Los datos se almacenan de manera persistente
+en **Firebase Firestore**, e incluyen:
 
-Currently, two official plugins are available:
+- El grafo completo de ciudades.
+- Las zonas verdes de cada ciudad.
+- Conexiones entre ciudades.
+- Cambios en tiempo real, sincronizados automáticamente.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Además, se visualizan dos grafos:
+1. El grafo de ciudades.
+2. El grafo del árbol de zonas verdes de cada ciudad.
 
-## React Compiler
+---
+## ⚙️ INSTALACIÓN
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Para evitar conflictos con dependencias serializables, la
+instalación debe realizarse SIEMPRE usando:
 
-## Expanding the ESLint configuration
+    npm install --force
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+## 📌 TECNOLOGÍAS UTILIZADAS
+
+- React + Vite (JavaScript)
+- Redux Toolkit
+- Firebase Authentication (Login con Google)
+- Firebase Firestore (persistencia)
+- react-d3-graph (visualización de grafos)
+- Estructuras de datos personalizadas:
+    - Graph (ciudades)
+    - ZoneNode (árbol n-ario)
+    - Stack, Queue, LinkedList
+- React Router
+
+---
+## 🔐 AUTENTICACIÓN
+
+La primera pantalla de la aplicación es el **Login con Google**.
+- Si el usuario ya está autenticado, se redirige automáticamente a:
+  /cities
+- Si no tiene sesión activa, no podrá acceder a otra ruta.
+
+---
+## 🌆 RED DE CIUDADES (GRAFO)
+
+El proyecto inicia con dos ciudades predeterminadas:
+
+- Cali
+- Jamundí
+
+Funciones disponibles:
+- Agregar nuevas ciudades.
+- Eliminar ciudades existentes.
+- Conectar ciudades entre sí (arista no dirigida).
+- Visualizar el grafo completo usando react-d3-graph.
+
+Todos los cambios quedan guardados en Firestore.
+
+---
+## 🌿 ZONAS VERDES (ÁRBOL N-ARIO)
+
+Cada ciudad posee un árbol jerárquico de zonas verdes.
+
+Acciones permitidas:
+- Agregar nuevas zonas.
+- Agregar subzonas.
+- Editar zonas existentes.  
+  *(No se permite eliminarlas.)*
+
+Cálculos disponibles:
+- Total de zonas.
+- Longitud máxima del árbol.
+
+Visualización:
+- Se muestra el árbol textual.
+- Se muestra un grafo de zonas verdes, donde cada nodo tiene
+  un color verde según su profundidad:
+  Nivel 0  → verde fuerte  
+  Niveles superiores → verde cada vez más claro
+
+---
+
+## ▶️ EJECUCIÓN DEL PROYECTO
+
+1. Instalar dependencias:
+   npm install --force
+
+2. Ejecutar en modo desarrollo:
+   npm run dev
+
+3. Abrir en el navegador
+
+---
+## 📝 NOTAS FINALES
+
+- Firestore guarda automáticamente todo el grafo y las zonas.
+- Si deseas reiniciar la base de datos, borra:
+  cityNetwork/main
+  en la colección correspondiente.
+- react-d3-graph permite visualizar tanto ciudades como zonas.
+
+---
+## ✒️ AUTOR
+
+Jorge Andrés Medina Urrutia  
+Código: 2230419
